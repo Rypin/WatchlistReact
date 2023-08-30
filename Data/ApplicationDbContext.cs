@@ -28,6 +28,14 @@ namespace WatchlistReact.Data
                 .HasOne(f => f.FollowedAccount)
                 .WithMany(fo => fo.Followers)
                 .HasForeignKey(fol => fol.AccountId);
+            builder.Entity<WatchlistShow>()
+                .HasOne(f => f.Show)
+                .WithMany(f => f.Watchlists)
+                .HasForeignKey(f => f.WatchlistId);
+            builder.Entity<WatchlistShow>()
+                .HasOne(f => f.Watchlist)
+                .WithMany(f => f.Shows)
+                .HasForeignKey(f => f.ShowId);
         }
         public DbSet<Followers> Follows { get; set; }
     }
