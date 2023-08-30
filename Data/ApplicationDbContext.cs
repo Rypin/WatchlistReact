@@ -38,6 +38,9 @@ namespace WatchlistReact.Data
                 .HasForeignKey(f => f.ShowId);
         }
         public DbSet<Followers> Follows { get; set; }
+        public DbSet<Watchlist> Watchlists { get; set; }
+        public DbSet<Show> Shows { get; set; }
+
     }
 }
 

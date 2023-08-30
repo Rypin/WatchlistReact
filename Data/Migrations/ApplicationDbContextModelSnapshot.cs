@@ -387,77 +387,7 @@ namespace WatchlistReact.Data.Migrations
 
                     b.HasIndex("FollowerId");
 
-                    b.ToTable("Follows");
-                });
-
-            modelBuilder.Entity("WatchlistReact.Models.Show", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Popularity")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Show");
-                });
-
-            modelBuilder.Entity("WatchlistReact.Models.Watchlist", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Watchlist");
-                });
-
-            modelBuilder.Entity("WatchlistReact.Models.WatchlistShow", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ShowId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WatchlistId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ShowId");
-
-                    b.HasIndex("WatchlistId");
-
-                    b.ToTable("WatchlistShow");
+                    b.ToTable("Follows", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -530,51 +460,11 @@ namespace WatchlistReact.Data.Migrations
                     b.Navigation("Follower");
                 });
 
-            modelBuilder.Entity("WatchlistReact.Models.Watchlist", b =>
-                {
-                    b.HasOne("WatchlistReact.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("WatchlistReact.Models.WatchlistShow", b =>
-                {
-                    b.HasOne("WatchlistReact.Models.Watchlist", "Watchlist")
-                        .WithMany("Shows")
-                        .HasForeignKey("ShowId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WatchlistReact.Models.Show", "Show")
-                        .WithMany("Watchlists")
-                        .HasForeignKey("WatchlistId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Show");
-
-                    b.Navigation("Watchlist");
-                });
-
             modelBuilder.Entity("WatchlistReact.Models.ApplicationUser", b =>
                 {
                     b.Navigation("FollowedAccounts");
 
                     b.Navigation("Followers");
-                });
-
-            modelBuilder.Entity("WatchlistReact.Models.Show", b =>
-                {
-                    b.Navigation("Watchlists");
-                });
-
-            modelBuilder.Entity("WatchlistReact.Models.Watchlist", b =>
-                {
-                    b.Navigation("Shows");
                 });
 #pragma warning restore 612, 618
         }
