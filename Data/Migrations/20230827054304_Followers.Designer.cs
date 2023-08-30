@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WatchlistReact.Data;
 
@@ -11,9 +12,11 @@ using WatchlistReact.Data;
 namespace WatchlistReact.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230827054304_Followers")]
+    partial class Followers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -308,6 +311,9 @@ namespace WatchlistReact.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -354,6 +360,8 @@ namespace WatchlistReact.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -363,31 +371,6 @@ namespace WatchlistReact.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("WatchlistReact.Models.Followers", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AccountId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FollowerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
-
-                    b.HasIndex("FollowerId");
-
-                    b.ToTable("Follows");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -441,29 +424,15 @@ namespace WatchlistReact.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WatchlistReact.Models.Followers", b =>
+            modelBuilder.Entity("WatchlistReact.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("WatchlistReact.Models.ApplicationUser", "FollowedAccount")
+                    b.HasOne("WatchlistReact.Models.ApplicationUser", null)
                         .WithMany("Followers")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WatchlistReact.Models.ApplicationUser", "Follower")
-                        .WithMany("FollowedAccounts")
-                        .HasForeignKey("FollowerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FollowedAccount");
-
-                    b.Navigation("Follower");
+                        .HasForeignKey("ApplicationUserId");
                 });
 
             modelBuilder.Entity("WatchlistReact.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("FollowedAccounts");
-
                     b.Navigation("Followers");
                 });
 #pragma warning restore 612, 618
