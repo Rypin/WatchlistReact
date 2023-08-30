@@ -7,6 +7,10 @@ namespace WatchlistReact.Models
     {
         public  ICollection<Followers> Followers { get; set; }
         public  ICollection<Followers> FollowedAccounts { get; set; }
+
+        public ICollection <Watchlist> Watchlists { get; set; }
+
+        public ICollection <ShowStatus> ShowStatuses { get; set; }  
     }
 
 }

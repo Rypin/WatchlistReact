@@ -19,7 +19,7 @@ namespace WatchlistReact.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
+            //create m-m relationship for user>user (followers)
             builder.Entity<Followers>()
                 .HasOne(f => f.Follower)
                 .WithMany(f=>f.FollowedAccounts)
@@ -28,6 +28,11 @@ namespace WatchlistReact.Data
                 .HasOne(f => f.FollowedAccount)
                 .WithMany(fo => fo.Followers)
                 .HasForeignKey(fol => fol.AccountId);
+            // 1-m relationship for user>watchlist
+            builder.Entity<Watchlist>()
+                .HasOne(f => f.User)
+                .WithMany(f => f.Watchlists);
+            //M-M for Watchlist>Show
             builder.Entity<WatchlistShow>()
                 .HasOne(f => f.Show)
                 .WithMany(f => f.Watchlists)
@@ -35,6 +40,15 @@ namespace WatchlistReact.Data
             builder.Entity<WatchlistShow>()
                 .HasOne(f => f.Watchlist)
                 .WithMany(f => f.Shows)
+                .HasForeignKey(f => f.ShowId);
+            //1-M for User>ShowStatus and Shows>ShowStatus
+            builder.Entity<ShowStatus>()
+                .HasOne(f => f.User)
+                .WithMany(f => f.ShowStatuses)
+                .HasForeignKey(f => f.UserId);
+            builder.Entity<ShowStatus>()
+                .HasOne(f => f.Show)
+                .WithMany(f => f.ShowStatuses)
                 .HasForeignKey(f => f.ShowId);
         }
         public DbSet<Followers> Follows { get; set; }

@@ -7,5 +7,7 @@
         public double Popularity { get; set; }
 
         public ICollection<WatchlistShow> Watchlists { get; set; }
+
+        public ICollection<ShowStatus> ShowStatuses { get; set; }
     }
 }
