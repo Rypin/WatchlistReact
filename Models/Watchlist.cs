@@ -8,5 +8,6 @@
         public ApplicationUser User { get; set; }
         
         public ICollection<WatchlistShow> Shows { get; set; }
+
     }
 }

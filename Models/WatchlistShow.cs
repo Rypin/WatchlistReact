@@ -11,5 +11,7 @@
         public Watchlist Watchlist { get; set; }
 
         public Show Show { get; set; }
+
+        public string Comment { get; set; }
     }
 }
